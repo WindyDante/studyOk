@@ -1,4 +1,4 @@
-package com.xuecheng.content.model;
+package com.xuecheng.content;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
