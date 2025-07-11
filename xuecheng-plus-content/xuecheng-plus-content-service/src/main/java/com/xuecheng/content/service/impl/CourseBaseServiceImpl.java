@@ -111,6 +111,7 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
         // 向课程营销信息表写入
         CourseMarket courseMarket = new CourseMarket();
         courseMarket.setId(courseBase.getId()); // 设置课程id
+        BeanUtils.copyProperties(dto, courseMarket);
 
         // 单独写一个方法保存营销信息 逻辑：存在则更新，不存在则新增
         int isOk = saveCourseMarket(courseMarket);
@@ -155,6 +156,8 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
 
     // 保存课程营销信息
     public int saveCourseMarket(CourseMarket courseMarket) {
+
+
         // 合法性校验
         String charge = courseMarket.getCharge();
         if (StringUtils.isEmpty(charge)) {

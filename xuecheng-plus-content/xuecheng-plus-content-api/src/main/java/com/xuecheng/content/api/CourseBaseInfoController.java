@@ -11,7 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -31,7 +30,7 @@ public class CourseBaseInfoController {
     }
 
     @ApiOperation("新增课程")
-    @PostMapping("/content/course")
+    @PostMapping("/course")
     public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto) {
         // 获取用户所属机构id
         Long companyId = 1L; // 模拟获取用户所属机构id，实际应用中应从安全上下文或会话中获取
