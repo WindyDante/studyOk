@@ -166,7 +166,7 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
         }
 
         if (charge.equals("201001")) {
-            if (courseMarket.getPrice() == null || courseMarket.getPrice() <= 0) {
+            if (courseMarket.getPrice() == null || courseMarket.getPrice().floatValue() <= 0) {
                 throw new XueChengPlusException("课程价格不能为空");
             }
         }
