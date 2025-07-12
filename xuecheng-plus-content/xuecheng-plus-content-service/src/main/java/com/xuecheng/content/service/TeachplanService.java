@@ -21,4 +21,13 @@ public interface TeachplanService {
 */
  public List<TeachplanDto> findTeachplanTree(long courseId);
 
+ /**
+  * @description 保存课程计划
+  * @param teachplanDto  课程计划信息
+  * @return void
+  * @author Mr.M
+  * @date 2022/9/9 13:39
+  */
+ public void saveTeachplan(SaveTeachplanDto teachplanDto);
+
  }
