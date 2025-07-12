@@ -160,7 +160,7 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
     @Override
     public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto editCourseDto) {
         // 拿到课程id
-        Long courseId = editCourseDto.getCourseId();
+        Long courseId = editCourseDto.getId();
         // 查询课程信息
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if (courseBase == null) {
