@@ -10,6 +10,7 @@ import com.xuecheng.content.mapper.CourseCategoryMapper;
 import com.xuecheng.content.mapper.CourseMarketMapper;
 import com.xuecheng.content.model.dto.AddCourseDto;
 import com.xuecheng.content.model.dto.CourseBaseInfoDto;
+import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
 import com.xuecheng.content.model.po.CourseBase;
 import com.xuecheng.content.model.po.CourseMarket;
@@ -126,7 +127,8 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
     }
 
     // 查询课程信息
-    public CourseBaseInfoDto getCourseBaseInfo(long courseId) {
+    @Override
+    public CourseBaseInfoDto getCourseBaseInfo(Long courseId) {
         // 从课程基本信息表查询
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if (courseBase == null) {
@@ -155,10 +157,38 @@ public class CourseBaseServiceImpl implements CourseBaseInfoService {
         return courseBaseInfoDto;
     }
 
+    @Override
+    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto editCourseDto) {
+        // 拿到课程id
+        Long courseId = editCourseDto.getCourseId();
+        // 查询课程信息
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (courseBase == null) {
+            throw new XueChengPlusException("课程不存在");
+        }
+
+        // 合法性校验
+        if (!companyId.equals(courseBase.getCompanyId())) {
+            throw new XueChengPlusException("无权限修改该课程");
+        }
+
+        // 更新课程基本信息
+        BeanUtils.copyProperties(editCourseDto, courseBase);
+
+        courseBase.setChangeDate(LocalDateTime.now());
+
+        int i = courseBaseMapper.updateById(courseBase);
+
+        if (i <= 0) {
+            throw new XueChengPlusException("更新课程基本信息失败");
+        }
+
+        CourseBaseInfoDto courseBaseInfo = getCourseBaseInfo(courseId);// 获取更新后的课程信息
+        return courseBaseInfo;
+    }
+
     // 保存课程营销信息
     public int saveCourseMarket(CourseMarket courseMarket) {
-
-
         // 合法性校验
         String charge = courseMarket.getCharge();
         if (StringUtils.isEmpty(charge)) {
