@@ -1,5 +1,6 @@
 package com.xuecheng.content.api;
 
+import com.xuecheng.base.exception.ValidationGroups;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.content.model.dto.AddCourseDto;
@@ -30,13 +31,12 @@ public class CourseBaseInfoController {
         return courseBasePageResult;
     }
 
-    @ApiOperation("新增课程")
+    @ApiOperation("新增课程基础信息")
     @PostMapping("/course")
-    public CourseBaseInfoDto createCourseBase(@RequestBody @Validated AddCourseDto addCourseDto) {
-        // 获取用户所属机构id
-        Long companyId = 1L; // 模拟获取用户所属机构id，实际应用中应从安全上下文或会话中获取
-        CourseBaseInfoDto courseBaseInfoDto = courseBaseInfoService.createCourseBase(companyId,addCourseDto);
-        return courseBaseInfoDto;
+    public CourseBaseInfoDto createCourseBase(@RequestBody @Validated({ValidationGroups.Inster.class}) AddCourseDto addCourseDto){
+        //机构id，由于认证系统没有上线暂时硬编码
+        Long companyId = 1L;
+        return courseBaseInfoService.createCourseBase(companyId,addCourseDto);
     }
 
 }

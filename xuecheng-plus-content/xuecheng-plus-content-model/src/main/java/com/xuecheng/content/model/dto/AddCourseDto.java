@@ -1,5 +1,6 @@
 package com.xuecheng.content.model.dto;
 
+import com.xuecheng.base.exception.ValidationGroups;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,53 +10,58 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 /**
- * @description 添加课程dto
  * @author Mr.M
- * @date 2022/9/7 17:40
  * @version 1.0
+ * @description 添加课程dto
+ * @date 2022/9/7 17:40
  */
 @Data
-@ApiModel(value="AddCourseDto", description="新增课程基本信息")
+@ApiModel(value = "AddCourseDto", description = "新增课程基本信息")
 public class AddCourseDto {
 
- @NotEmpty(message = "课程名称不能为空")
- @ApiModelProperty(value = "课程名称", required = true)
- private String name;
+   /**
+    * 这里指定的组可以在不同的场景下使用不同的校验规则
+    * */
+    @NotEmpty(groups = {ValidationGroups.Inster.class}, message = "添加课程名称不能为空")
+    @NotEmpty(groups = {ValidationGroups.Update.class}, message = "修改课程名称不能为空")
+// @NotEmpty(message = "课程名称不能为空")
+    @ApiModelProperty(value = "课程名称", required = true)
+    private String name;
 
- @NotEmpty(message = "适用人群不能为空")
- @Size(message = "适用人群内容过少",min = 10)
- @ApiModelProperty(value = "适用人群", required = true)
- private String users;
+    @NotEmpty(message = "适用人群不能为空")
+    @Size(message = "适用人群内容过少", min = 10)
+    @ApiModelProperty(value = "适用人群", required = true)
+    private String users;
 
- @ApiModelProperty(value = "课程标签")
- private String tags;
+    @ApiModelProperty(value = "课程标签")
+    private String tags;
 
- @NotEmpty(message = "课程分类不能为空")
- @ApiModelProperty(value = "大分类", required = true)
- private String mt;
+    @NotEmpty(message = "课程分类不能为空")
+    @ApiModelProperty(value = "大分类", required = true)
+    private String mt;
 
- @NotEmpty(message = "课程分类不能为空")
- @ApiModelProperty(value = "小分类", required = true)
- private String st;
+    @NotEmpty(message = "课程分类不能为空")
+    @ApiModelProperty(value = "小分类", required = true)
+    private String st;
 
- @NotEmpty(message = "课程等级不能为空")
- @ApiModelProperty(value = "课程等级", required = true)
- private String grade;
+    @NotEmpty(message = "课程等级不能为空")
+    @ApiModelProperty(value = "课程等级", required = true)
+    private String grade;
 
- @ApiModelProperty(value = "教学模式（普通，录播，直播等）", required = true)
- private String teachmode;
+    @ApiModelProperty(value = "教学模式（普通，录播，直播等）", required = true)
+    private String teachmode;
 
- @ApiModelProperty(value = "课程介绍")
- private String description;
+    @ApiModelProperty(value = "课程介绍")
+    private String description;
 
- @ApiModelProperty(value = "课程图片", required = true)
- private String pic;
+    @ApiModelProperty(value = "课程图片", required = true)
+    private String pic;
 
- @NotEmpty(message = "收费规则不能为空")
- @ApiModelProperty(value = "收费规则，对应数据字典", required = true)
- private String charge;
+    @NotEmpty(message = "收费规则不能为空")
+    @ApiModelProperty(value = "收费规则，对应数据字典", required = true)
+    private String charge;
 
- @ApiModelProperty(value = "价格")
- private BigDecimal price;
+    @ApiModelProperty(value = "价格")
+    private BigDecimal price;
 
 }
