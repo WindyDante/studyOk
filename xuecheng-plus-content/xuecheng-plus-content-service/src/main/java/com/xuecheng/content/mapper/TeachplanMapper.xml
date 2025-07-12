@@ -85,7 +85,8 @@
             m1.media_fileName mediaFilename,
             m1.id teachplanMeidaId,
             m1.media_id mediaId
-
+-- 左连接会保留one 表数据，继续在后续的where条件使用，自连接在找不到满足条件的情况下会直接过滤这一行，如果是一级目录，就会直接被过滤
+        -- 而左连接会保留这一行，这样就可以通过parentid = 0 来查询一级目录
         from teachplan one
                  left JOIN teachplan two on one.id = two.parentid
                  LEFT JOIN teachplan_media m1 on m1.teachplan_id = two.id
