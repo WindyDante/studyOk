@@ -3,6 +3,7 @@ package com.xuecheng.media.api;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
 import com.xuecheng.media.model.dto.QueryMediaParamsDto;
+import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
 import com.xuecheng.media.service.MediaFileService;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -32,8 +34,21 @@ public class MediaFilesController {
     @ApiOperation("上传文件")
     @RequestMapping(value = "/upload/coursefile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UploadFileResultDto upload(@RequestPart("filedata") MultipartFile upload) throws IOException {
+        Long companyId = 1232141425L;
+        UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
+        // 设置上传文件的基本信息
+        uploadFileParamsDto.setFilename(upload.getOriginalFilename());
+        uploadFileParamsDto.setFileSize(upload.getSize());
+        uploadFileParamsDto.setFileType("001001");
 
-        return null;
+        // 获取本地路径
+        File temp = File.createTempFile("temp", ".tmp");
+        upload.transferTo(temp);
+        String localFilePath = temp.getAbsolutePath();
+
+
+        UploadFileResultDto uploadFileResultDto = mediaFileService.uploadFile(companyId, uploadFileParamsDto, localFilePath);
+        return uploadFileResultDto;
     }
 
 
