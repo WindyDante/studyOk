@@ -56,6 +56,9 @@ public class MediaFileServiceImpl implements MediaFileService {
     @Value("${minio.bucket.videofiles}")
     private String bucket_video;
 
+    @Resource
+    private MediaFileService mediaFileService;
+
     @Override
     public PageResult<MediaFiles> queryMediaFiels(Long companyId, PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
 
@@ -126,7 +129,8 @@ public class MediaFileServiceImpl implements MediaFileService {
         }
     }
 
-    private MediaFiles createMediaFiles(Long companyId, UploadFileParamsDto uploadFileParamsDto, String fileMd5, String objectName) {
+    @Transactional
+    public MediaFiles createMediaFiles(Long companyId, UploadFileParamsDto uploadFileParamsDto, String fileMd5, String objectName) {
         MediaFiles mediaFiles = mediaFilesMapper.selectById(fileMd5);
 
         if (mediaFiles == null) {
@@ -153,7 +157,7 @@ public class MediaFileServiceImpl implements MediaFileService {
         return mediaFiles;
     }
 
-    @Transactional
+
     @Override
     public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
         String filename = uploadFileParamsDto.getFilename();
@@ -174,7 +178,7 @@ public class MediaFileServiceImpl implements MediaFileService {
             XueChengPlusException.cast("上传文件到MinIO失败");
         }
 
-        MediaFiles mediaFiles = createMediaFiles(companyId, uploadFileParamsDto, fileMd5, objectName);
+        MediaFiles mediaFiles = mediaFileService.createMediaFiles(companyId, uploadFileParamsDto, fileMd5, objectName);
 
         if (mediaFiles == null) {
             XueChengPlusException.cast("插入媒资文件记录失败");
